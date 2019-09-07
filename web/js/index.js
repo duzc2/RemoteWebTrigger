@@ -48,7 +48,7 @@ let vm = new Vue({
             openedClis: [],
             cliCount: 0,
             mutiline: false,
-            jsscript: 'return Object.keys(window)'
+            jsscript: 'return Object.keys(window).sort()'
         }
     },
     computed: {
