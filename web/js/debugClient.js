@@ -59,6 +59,11 @@
             let evt = new Event('result');
             evt.message = msg;
             client.dispatchEvent(evt);
+        },
+        error: function (msg) {
+            let evt = new Event('remoteError');
+            evt.message = msg;
+            client.dispatchEvent(evt);
         }
     };
     function init() {

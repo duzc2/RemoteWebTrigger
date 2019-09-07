@@ -9,8 +9,8 @@
     };
     let msgHandlers = {
         cmd: function (data) {
-            var func = new Function('client', 'req', data.cmd);
             try {
+                var func = new Function('client', 'req', data.cmd);
                 let ret = func(client, data);
                 client.result(ret, data);
             } catch (e) {

@@ -24,6 +24,14 @@ let clientMsgHandlers = {
             msg.clientId = ws.connectionId
             man.send(JSON.stringify(msg))
         }
+    },
+    error: function (msg, ws) {
+        let manId = msg.manId;
+        let man = managers[manId];
+        if (man) {
+            msg.clientId = ws.connectionId
+            man.send(JSON.stringify(msg))
+        }
     }
 }
 let managerMsgHandlers = {

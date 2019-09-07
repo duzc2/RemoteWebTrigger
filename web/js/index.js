@@ -100,6 +100,18 @@ let vm = new Vue({
                     return;
                 }
             }
+        },
+        onRemoteError: function (evt) {
+            let msg = evt.message;
+            let clientId = msg.clientId;
+            for (let i = 0; i < this.openedClis.length; i++) {
+                let cli = this.openedClis[i];
+                if (cli.clientId == clientId) {
+                    let result = JSON.stringify(msg.data, null, '  ');
+                    cli.history.unshift("Error:\n" + result);
+                    return;
+                }
+            }
         }
     }
 });
@@ -111,4 +123,7 @@ DebugClient.on('offline', evt => {
 })
 DebugClient.on('result', evt => {
     vm.onResult(evt)
+})
+DebugClient.on('remoteError', evt => {
+    vm.onRemoteError(evt)
 })
