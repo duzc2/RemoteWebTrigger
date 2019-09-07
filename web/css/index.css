@@ -42,3 +42,7 @@ body>.el-container {
 .el-container:nth-child(7) .el-aside {
     line-height: 320px;
 }
+
+.openedClis>.openedCli .el-collapse-item__header {
+    line-height: normal;
+}

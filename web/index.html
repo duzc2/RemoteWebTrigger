@@ -27,10 +27,13 @@
             <el-container>
                 <el-aside width="350px" class="fullH" style="background-color: rgb(238, 241, 246)">
                     <span>Open</span>
-                    <el-collapse>
-                        <el-collapse-item v-for="cli in openedClis" :title="cli.clientId" :name="cli.clientId">
-                            <template slot="title">{{cli.clientId}} @ {{cli.sessionID}}<i v-if="!cli.connected"
-                                    class="header-icon el-icon-error"></i></template>
+                    <el-collapse class="openedClis">
+                        <el-collapse-item v-for="cli in openedClis" :title="cli.clientId" class="openedCli"
+                            :id="'openedCli_'+cli.clientId" :name="cli.clientId">
+                            <template slot="title" style="line-height:normal;">{{cli.clientId}} @ {{cli.sessionID}}<i
+                                    v-if="!cli.connected" class="header-icon el-icon-error"></i><i
+                                    v-if="cli==currentCli" class="el-icon-s-flag"></i>
+                            </template>
                             <el-link @click="openCli(cli)">Open</el-link>
                             <el-tooltip class="item" effect="dark" placement="bottom-end">
                                 <div slot="content">Url：{{cli.location}}<br />UserAgent:{{cli.userAgent}}</div>
