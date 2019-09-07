@@ -31,6 +31,19 @@ Vue.component('clients', {
         }
     }
 })
+Vue.component('terminal', {
+    props: ['value'],
+    template: loadHtmlSync('shtml/clients.shtml'),
+    data: function () {
+        return { clients: DebugClient.clients };
+    },
+    methods: {
+        openTerminal: function (cli) {
+            console.log(cli);
+            this.$root.openCli(cli);
+        }
+    }
+})
 let vm = new Vue({
     el: '#app',
     data: function () {
