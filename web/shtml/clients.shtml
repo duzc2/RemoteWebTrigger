@@ -1,0 +1,12 @@
+<div class="full">
+    <el-collapse>
+        <el-collapse-item v-for="cli in clients" :title="cli.clientId" :name="cli.clientId">
+            <template slot="title">{{cli.clientId}} @ {{cli.sessionID}}<i v-if="cli.opened"
+                    class="header-icon el-icon-info"></i></template>
+            <el-tooltip class="item" effect="dark" placement="bottom-end">
+                <div slot="content">url：{{cli.location}}<br />userAgent:{{cli.userAgent}}</div>
+                <el-link @click="openTerminal(cli)">打开终端</el-link>
+            </el-tooltip>
+        </el-collapse-item>
+    </el-collapse>
+</div>
