@@ -16,19 +16,34 @@ let clientMsgHandlers = {
         ws.location = msg.location;
         let mgrmsg = { type: 'online', info: { clientId: ws.connectionId, userAgent: ws.userAgent, location: ws.location, sessionID: ws.sessionID } };
         broadcastManagers(mgrmsg);
+    },
+    result: function (msg, ws) {
+        let manId = msg.manId;
+        let man = managers[manId];
+        if (man) {
+            msg.clientId = ws.connectionId
+            man.send(JSON.stringify(msg))
+        }
     }
 }
 let managerMsgHandlers = {
+    cmd: function (msg, ws) {
+        let cli = clients[msg.clientId];
+        if (cli) {
+            msg.manId = ws.connectionId;
+            cli.send(JSON.stringify(msg));
+        }
+    }
 }
 router.ws('/client', function (ws, req) {
     ws.on('message', function (msg1) {
-        console.log(msg1);
         let msg = JSON.parse(msg1);
         let type = msg.type;
         if (clientMsgHandlers[type]) {
             clientMsgHandlers[type](msg, ws)
         } else {
             console.log('no handler for client ' + msg.type)
+            console.log(msg1);
         }
     })
     ws.on('close', function (evt) {
@@ -47,13 +62,13 @@ router.ws('/client', function (ws, req) {
 });
 router.ws('/manager', function (ws, res) {
     ws.on('message', function (msg1) {
-        console.log(msg1);
         let msg = JSON.parse(msg1);
         let type = msg.type;
         if (managerMsgHandlers[type]) {
-            managerMsgHandlers[type](msg)
+            managerMsgHandlers[type](msg, ws)
         } else {
             console.log('no handler for manager ' + msg.type)
+            console.log(msg1);
         }
     })
     ws.on('close', function (evt) {

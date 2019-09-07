@@ -8,7 +8,7 @@
     <meta name="google" value="notranslate">
     <meta charset="utf-8">
     <title>Remote JS Debugger</title>
-    
+
     <script src="http://cdn.staticfile.org/zepto/1.0rc1/zepto.min.js"></script>
     <script src="https://cdn.staticfile.org/vue/2.6.10/vue.min.js"></script>
     <!-- 引入样式 -->
@@ -21,24 +21,40 @@
 </head>
 
 <body class="full">
-    <!-- <div id="app" class="full">
-        <div class="left fullH" style="width:300px;">
-            <clients></clients>
-        </div>
-    </div> -->
     <div id="app" class="full">
         <el-container class="full">
-            <el-header>Client Count:{{DebugClient.clients.length}}</el-header>
+            <el-header>Client Count:{{cliCount}} Opened:{{openedCliCount}}</el-header>
             <el-container>
                 <el-aside width="350px" class="fullH" style="background-color: rgb(238, 241, 246)">
+                    <span>Open</span>
+                    <el-collapse>
+                        <el-collapse-item v-for="cli in openedClis" :title="cli.clientId" :name="cli.clientId">
+                            <template slot="title">{{cli.clientId}} @ {{cli.sessionID}}<i v-if="!cli.connected"
+                                    class="header-icon el-icon-error"></i></template>
+                            <el-link @click="openCli(cli)">Open</el-link>
+                            <el-tooltip class="item" effect="dark" placement="bottom-end">
+                                <div slot="content">Url：{{cli.location}}<br />UserAgent:{{cli.userAgent}}</div>
+                                <i class="header-icon el-icon-info"></i>
+                            </el-tooltip>
+                        </el-collapse-item>
+                    </el-collapse>
+                    <hr />
+                    <span>All</span>
                     <clients></clients>
                 </el-aside>
 
                 <el-container>
                     <el-main>
-                        
+                        <terminal v-if="currentCli" :client="currentCli"></terminal>
                     </el-main>
-                    <el-footer>Opened:{{openedCliCount}}</el-footer>
+                    <el-footer height="120px" style="position: fixed;bottom:0;right:0;">
+                        <el-checkbox id="mutiline" v-model="mutiline" type="checkbox">Muti-line
+                        </el-checkbox>
+                        <el-input :type="mutiline?'textarea':'text'" :rows="2" placeholder="请输入内容" v-model="jsscript"
+                            clearable autosize autocomplete="on">
+                        </el-input>
+                        <el-button style="float:right" @click="runjs">RUN</el-button>
+                    </el-footer>
                 </el-container>
             </el-container>
         </el-container>

@@ -51,7 +51,7 @@ app.use(session({
     cookie: {
         // secure: true,
         httpOnly: true,
-        maxAge: 1000 * 60 * 60
+        maxAge: 999999999
     },
     store: new MemoryStore({
         max: 300000,

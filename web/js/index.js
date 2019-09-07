@@ -32,16 +32,12 @@ Vue.component('clients', {
     }
 })
 Vue.component('terminal', {
-    props: ['value'],
-    template: loadHtmlSync('shtml/clients.shtml'),
+    props: ['client'],
+    template: loadHtmlSync('shtml/terminal.shtml'),
     data: function () {
-        return { clients: DebugClient.clients };
+        return {};
     },
     methods: {
-        openTerminal: function (cli) {
-            console.log(cli);
-            this.$root.openCli(cli);
-        }
     }
 })
 let vm = new Vue({
@@ -50,7 +46,9 @@ let vm = new Vue({
         return {
             currentCli: null,
             openedClis: [],
-            cliCount: 0
+            cliCount: 0,
+            mutiline: false,
+            jsscript: 'return Object.keys(window)'
         }
     },
     computed: {
@@ -62,16 +60,45 @@ let vm = new Vue({
         openCli: function (cli) {
             if (!cli.opened) {
                 cli.opened = true;
-                cli.history = [];
+                // cli.history = [];
+                vm.$set(cli, 'history', [])
                 this.openedClis.push(cli);
             }
             this.currentCli = cli;
+        },
+        runjs: function () {
+            if (!this.currentCli) {
+                return;
+            }
+            console.log(this.jsscript);
+            DebugClient.sendCmd(this.currentCli.clientId, this.jsscript);
+        },
+        incCliCount: function () {
+            this.cliCount++;
+        },
+        decCliCount: function () {
+            this.cliCount--;
+        },
+        onResult: function (evt) {
+            let msg = evt.message;
+            let clientId = msg.clientId;
+            for (let i = 0; i < this.openedClis.length; i++) {
+                let cli = this.openedClis[i];
+                if (cli.clientId == clientId) {
+                    let result = JSON.stringify(msg.data, null, '  ');
+                    cli.history.unshift(result);
+                    return;
+                }
+            }
         }
     }
 });
 DebugClient.on('online', evt => {
-    vm.cliCount++;
+    vm.incCliCount();
 })
 DebugClient.on('offline', evt => {
-    vm.cliCount--;
+    vm.decCliCount();
+})
+DebugClient.on('result', evt => {
+    vm.onResult(evt)
 })

@@ -1,3 +1,4 @@
-<div>
-    Terminal
+<div id="terminal">
+    {{client.clientId}}
+    <pre v-for="r in client.history">{{r}}</pre>
 </div>

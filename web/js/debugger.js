@@ -1,10 +1,10 @@
 (function () {
     let client = {
         result: function (result, req) {
-            client.ws.send(JSON.stringify({ type: "result", data: result, manager: req.manager }));
+            client.ws.send(JSON.stringify({ type: "result", data: result, manId: req.manId }));
         },
         error: function (error, req) {
-            client.ws.send(JSON.stringify({ type: "error", data: error.message, manager: req.manager }));
+            client.ws.send(JSON.stringify({ type: "error", data: error.message, manId: req.manId }));
         }
     };
     let msgHandlers = {
@@ -38,6 +38,7 @@
                 msgHandlers[data.type](data);
             } else {
                 console.log('no handler for ' + data.type);
+                console.log(data);
             }
         }
         client.ws = ws;
