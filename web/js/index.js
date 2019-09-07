@@ -62,9 +62,19 @@ let vm = new Vue({
                 cli.opened = true;
                 // cli.history = [];
                 vm.$set(cli, 'history', [])
-                this.openedClis.push(cli);
+                this.openedClis.unshift(cli);
             }
             this.currentCli = cli;
+        },
+        closeCli: function (cli) {
+            let elements = this.openedClis;
+            for (var i = elements.length - 1; i >= 0; i--) {
+                if (elements[i].clientId == cli.clientId) {
+                    let e = elements[i]
+                    e.opened = false;
+                    elements.splice(i, 1);
+                }
+            }
         },
         runjs: function () {
             if (!this.currentCli) {

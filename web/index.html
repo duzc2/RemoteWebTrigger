@@ -35,6 +35,7 @@
                                     v-if="cli==currentCli" class="el-icon-s-flag"></i>
                             </template>
                             <el-link @click="openCli(cli)">Open</el-link>
+                            <el-link @click="closeCli(cli)">Close</el-link>
                             <el-tooltip class="item" effect="dark" placement="bottom-end">
                                 <div slot="content">Url：{{cli.location}}<br />UserAgent:{{cli.userAgent}}</div>
                                 <i class="header-icon el-icon-info"></i>
