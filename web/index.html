@@ -8,63 +8,12 @@
     <meta name="google" value="notranslate">
     <meta charset="utf-8">
     <title>Remote JS Debugger</title>
-    <style>
-        .full {
-            height: 100%;
-            width: 100%;
-            margin: 0;
-            outline: 0;
-            border: 0;
-        }
-
-        .fullH {
-            height: 100%;
-        }
-
-        .left {
-            float: left;
-            overflow: hidden;
-        }
-
-        .el-header,
-        .el-footer {
-            background-color: #B3C0D1;
-            color: #333;
-            text-align: center;
-            line-height: 60px;
-        }
-
-        .el-aside {
-            background-color: #D3DCE6;
-            color: #333;
-            text-align: center;
-            line-height: 200px;
-        }
-
-        .el-main {
-            background-color: #E9EEF3;
-            color: #333;
-            text-align: center;
-            line-height: 160px;
-        }
-
-        body>.el-container {
-            margin-bottom: 40px;
-        }
-
-        .el-container:nth-child(5) .el-aside,
-        .el-container:nth-child(6) .el-aside {
-            line-height: 260px;
-        }
-
-        .el-container:nth-child(7) .el-aside {
-            line-height: 320px;
-        }
-    </style>
+    
     <script src="http://cdn.staticfile.org/zepto/1.0rc1/zepto.min.js"></script>
     <script src="https://cdn.staticfile.org/vue/2.6.10/vue.min.js"></script>
     <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="./css/index.css">
     <!-- 引入组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <script src="./js/debugClient.js"></script>
@@ -86,7 +35,9 @@
                 </el-aside>
 
                 <el-container>
-                    <el-main></el-main>
+                    <el-main>
+                        
+                    </el-main>
                     <el-footer>Opened:{{openedCliCount}}</el-footer>
                 </el-container>
             </el-container>
